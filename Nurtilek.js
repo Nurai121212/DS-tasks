@@ -1,27 +1,20 @@
 //Арифметические операции с помощью функций
 
-function plus(rightOperand) { return function(leftOperand) { return leftOperand + rightOperand }};
-function minus(rightOperand) { return function(leftOperand) { return leftOperand - rightOperand }};
-function times(rightOperand) { return function(leftOperand) { return leftOperand * rightOperand }};
-function dividedBy(rightOperand) { return function(leftOperand) { return Math.floor(leftOperand / rightOperand)}};
+const plus = (rightOperand) => (leftOperand) => leftOperand + rightOperand;
+const minus = (rightOperand) => (leftOperand) => leftOperand - rightOperand;
+const times = (rightOperand) => (leftOperand) => leftOperand * rightOperand;
+const dividedBy = (rightOperand) => (leftOperand) => Math.floor(leftOperand / rightOperand);
 
-let calculation = function(num) {
-  return function(operation) {
-    return operation ? operation(num) : num
-  }
-};
+const calculation = (num) => (operation) => operation ? operation(num) : num;
 
-let zero = calculation(0);
-let one = calculation(1);
-let two = calculation(2);
-let three = calculation(3);
-let four = calculation(4);
-let five = calculation(5);
-let six = calculation(6);
-let seven = calculation(7);
-let eight = calculation(8);
-let nine = calculation(9);
- 
+const nums = [];
+
+for(let i = 0; i < 10; i++){
+  nums.push(calculation(i))
+}
+
+const [zero, one, two, three, four, five, six, seven, eight, nine] = nums
+
 console.log(eight(dividedBy(three())));
 
 //Сложение строк
@@ -76,8 +69,7 @@ const fibonacciCombination = (target) => {
 
   while(true){
     let c = a + b;
-    a = b;
-    b = c;
+    [a, b] = [b, c]
 
     if(target === a * b || target < a * b){
       return [a, b, target === a * b]
