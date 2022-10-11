@@ -1,71 +1,88 @@
 //Арифметические операции с помощью функций
 
-const numbers = {
-  zero: 0,
-  one: 1,
-  two: 2,
-  three: 3,
-  four: 4,
-  five: 5,
-  six: 6,
-  seven: 7,
-  eight: 8,
-  nine: 9
+function plus(rightOperand) { return function(leftOperand) { return leftOperand + rightOperand }};
+function minus(rightOperand) { return function(leftOperand) { return leftOperand - rightOperand }};
+function times(rightOperand) { return function(leftOperand) { return leftOperand * rightOperand }};
+function dividedBy(rightOperand) { return function(leftOperand) { return Math.floor(leftOperand / rightOperand)}};
+
+let calculation = function(num) {
+  return function(operation) {
+    return operation ? operation(num) : num
+  }
 };
 
-const operations = {
-  plus: "+",
-  minus: "-",
-  times: "*",
-  dividedBy: "/"
-};
-
-for(const key in operations) {
-  eval(`function ${key}(rightOperand) { 
-    return (leftOperand) => Math.floor(leftOperand ${operations[key]} rightOperand);  
-  }`);
-};
-
-for(const key in numbers) {
- eval(`function ${key}(operation) {
-    return operation ? operation(${numbers[key]}) : ${numbers[key]}; 
-  }`)
-};
-
+let zero = calculation(0);
+let one = calculation(1);
+let two = calculation(2);
+let three = calculation(3);
+let four = calculation(4);
+let five = calculation(5);
+let six = calculation(6);
+let seven = calculation(7);
+let eight = calculation(8);
+let nine = calculation(9);
+ 
 console.log(eight(dividedBy(three())));
-
 
 //Сложение строк
 
 function sum(leftOperand, rightOperand){
-  let res = eval(`${leftOperand} + ${rightOperand}`);
+  let greatest = leftOperand.length > rightOperand.length ? leftOperand : rightOperand;
+  let smallest = leftOperand === greatest ? rightOperand : leftOperand;
 
-  return res.toString()
+  greatest = greatest.split('').reverse();
+  smallest = smallest.split('').reverse();
+
+  if(greatest.length > smallest.length){
+    let oldLength = smallest.length;
+    smallest.length = greatest.length;
+    smallest.fill('0', oldLength, smallest.length)
+  }
+
+  let stack = [];
+  let memoryNum = 0;
+
+  for( let i = 0; i < greatest.length; i++){
+    for(let j = i; j < smallest.length; j++){
+      let currentSum = parseInt(greatest[i]) + parseInt(smallest[j])
+
+      if(memoryNum !== 0){
+        currentSum += memoryNum;
+        memoryNum = 0
+      }
+
+      if(currentSum > 9){
+        currentSum = currentSum.toString();
+        memoryNum = parseInt(currentSum.substring(0, 1));
+        stack.push(currentSum.substring(1))
+      }else{
+        stack.push(currentSum)
+      }
+
+      j = smallest.length;
+    }
+  }
+
+  return stack.reverse().join('')
 }
 
-console.log(sum('12', '34'));
+console.log(sum('128', '348'));
 
 
 //Fibonacci Combination
 
-const findFibonacciCombination = (target) => {
-  let a  = 1;
-  let b = 1;
+const fibonacciCombination = (target) => {
+  let a = 1, b = 1;
 
-  for(let i = 3; i > 0; i++){
+  while(true){
     let c = a + b;
-
-    if(a * b < target && target < b * c){
-      return [b, c, false]
-    }
-
     a = b;
     b = c;
 
-    if(a * b === target){
-      return [a, b, true]
+    if(target === a * b || target < a * b){
+      return [a, b, target === a * b]
     }
   }
 };
 
-console.log(findFibonacciCombination(714));
+console.log(fibonacciCombination(714));
