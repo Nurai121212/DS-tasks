@@ -16,7 +16,7 @@ type ObjType = {
   id: string
 }
 
-const mapFromArray = <T extends ObjType>(objects : T[]) => {
+const mapFromArray = <T extends ObjType>(objects : T[]) : {} => {
   return objects.reduce((acc, i) => ({...acc, [i.id]: i}), {})
 }
 

@@ -65,16 +65,13 @@ console.log(sum('128', '348'));
 //Fibonacci Combination
 
 const fibonacciCombination = (target) => {
-  let a = 1, b = 1;
+  let [a, b] = [0, 1];
 
-  while(true){
-    let c = a + b;
-    [a, b] = [b, c]
-
-    if(target === a * b || target < a * b){
-      return [a, b, target === a * b]
-    }
+  while(a * b < target){
+    [a, b] = [b, a  + b]
   }
+  
+  return [a, b, target === a * b]
 };
 
 console.log(fibonacciCombination(714));
