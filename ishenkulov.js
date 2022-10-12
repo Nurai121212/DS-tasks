@@ -36,23 +36,24 @@ const getNumberByUserId = (id) => {
   });
 };
 
+
 const getUsers = async () => {
-  const allUsers = await getUserGroups();
-  let users = [];
-
-  allUsers.forEach(element => {
-    users.push(...element.users)
-  });
-
-  let finalUsers = await Promise.all(users = users.map(async item => {
-    return {
+  const groups = await getUserGroups();
+  const users = groups.map(item => item.users).flat();
+  const promises = users.map(item => {
+    return new Promise((resolve) => {
+      resolve(getNumberByUserId(item.id))
+    }).then((secretNumber) => ({
       id: item.id,
       name: item.name,
-      secretNumber: await getNumberByUserId(item.id)
-    }
-  }))
+      secretNumber
+    }))
+  });
 
-  console.log(finalUsers.filter(item => item.secretNumber % 2 !== 0 ));
+  const result = await Promise.all(promises);
+  return result.filter(item => item.secretNumber % 2 !== 0)
 }
 
-getUsers();
+getUsers().then((data) => {
+  console.log(data);
+})

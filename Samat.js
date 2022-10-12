@@ -33,9 +33,7 @@ function getAllValues(obj){
   let targetObj = obj;
   console.log(targetObj.value);
 
-  while(targetObj.next !== null){
-    return getAllValues(targetObj.next)
-  }
+  if (targetObj.next) getAllValues(targetObj.next);
 };
 
 getAllValues(linkedList)
