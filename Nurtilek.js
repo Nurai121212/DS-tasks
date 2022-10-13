@@ -75,3 +75,88 @@ const fibonacciCombination = (target) => {
 };
 
 console.log(fibonacciCombination(714));
+
+
+
+//Write a function, which takes a non-negative integer (seconds) 
+//as input and returns the time in a human-readable format (HH:MM:SS)
+
+function humanReadable (seconds) {
+  if(seconds ===  0) {return '00:00:00'}
+
+  let hours = Math.floor(seconds / 3600);
+  seconds = seconds - hours * 3600;
+
+  if(hours < 10){
+    hours = '0' + hours
+  }
+
+  let minutes = Math.floor(seconds / 60);
+  seconds = seconds - minutes * 60;
+
+  if(minutes < 10){
+    minutes = '0' + minutes
+  }
+
+  if(seconds < 10){
+    seconds = '0' + seconds
+  }
+
+  return `${hours}:${minutes}:${seconds}`
+};
+
+console.log(humanReadable(3600));
+
+
+//Write a function that takes a string of parentheses, and determines if the order of the parentheses is valid. 
+//The function should return true if the string is valid, and false if it's invalid.
+
+function validParentheses(parens) {
+  if(parens === ''){return true}
+
+  return parens.length % 2 === 0
+};
+
+console.log(validParentheses('()'));
+
+
+//Finish the solution so that it returns the sum of all the multiples of 3 or 5 below the number passed in. 
+//Additionally, if the number is negative, return 0 (for languages that do have them).
+
+function solution(number){
+  let sum = 0;
+
+  for(let i = 0; i < number; i++){
+    if(i < 0){return 0}
+
+    if(i % 3 === 0 || i % 5 === 0){
+      sum += i
+    }
+  };
+
+  return sum
+}
+
+console.log(solution(10));
+
+
+//Given two arrays a and b write a function comp(a, b) (orcompSame(a, b)) that checks whether the two arrays have the "same" elements, 
+//with the same multiplicities (the multiplicity of a member is the number of times it appears). 
+//"Same" means, here, that the elements in b are the elements in a squared, regardless of the order.
+
+const comp = (array1, array2) => {
+  if(array1 === null || array2 === null){return false};
+
+  let res = true;
+
+  for(let i = 0; i < array1.length; i++){
+    res = array2.indexOf(array1[i] ** 2) > -1
+  }
+
+  return res;
+};
+
+const arrA = [121, 144, 19, 161, 19, 144, 19, 11];
+const arrB = [132, 14641, 20736, 361, 25921, 361, 20736, 361];
+
+console.log(comp(arrA, arrB));
