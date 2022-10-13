@@ -112,12 +112,17 @@ console.log(humanReadable(3600));
 //The function should return true if the string is valid, and false if it's invalid.
 
 function validParentheses(parens) {
-  if(parens === ''){return true}
+  const regularExp = /\(\)/g;
 
-  return parens.length % 2 === 0
+  while(regularExp.test(parens)){
+    parens = parens.replace(regularExp, '');
+    return validParentheses(parens)
+  }
+  
+  return parens === ''
 };
 
-console.log(validParentheses('()'));
+console.log(validParentheses(')()('));
 
 
 //Finish the solution so that it returns the sum of all the multiples of 3 or 5 below the number passed in. 
@@ -148,15 +153,19 @@ const comp = (array1, array2) => {
   if(array1 === null || array2 === null){return false};
 
   let res = true;
+  let i = 0;
 
-  for(let i = 0; i < array1.length; i++){
-    res = array2.indexOf(array1[i] ** 2) > -1
+  while(res && i < array1.length){
+    let index = array2.indexOf(array1[i] ** 2)
+    res = index > -1
+    array2.splice(index, 1)
+    i++;
   }
 
   return res;
 };
 
-const arrA = [121, 144, 19, 161, 19, 144, 19, 11];
-const arrB = [132, 14641, 20736, 361, 25921, 361, 20736, 361];
+const arrA = [9, 5, 0, 5, 7, 8, 8, 9, 7, 3, 3, 3, 0, 6, 4, 4, 0, 0] ;
+const arrB = [1, 0, 16, 81, 64, 9, 49, 16, 9, 36, 25, 0, 49, 25, 64, 0, 81, 9];
 
 console.log(comp(arrA, arrB));
